@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voxel Engine</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="voxelCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('voxelCanvas');
+        const context = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const voxelSize = 20;
+        const voxelColor = '#3498db';
+        const voxels = [];
+
+        function createVoxel(x, y, z) {
+            return { x, y, z };
+        }
+
+        function drawVoxel(voxel) {
+            const size = voxelSize;
+            const x = voxel.x * size;
+            const y = voxel.y * size - voxel.z * size * 0.5;
+
+            context.fillStyle = voxelColor;
+            context.fillRect(x, y, size, size);
+        }
+
+        function drawScene() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (const voxel of voxels) {
+                drawVoxel(voxel);
+            }
+        }
+
+        function init() {
+            for (let x = 0; x < 10; x++) {
+                for (let y = 0; y < 10; y++) {
+                    for (let z = 0; z < 10; z++) {
+                        voxels.push(createVoxel(x, y, z));
+                    }
+                }
+            }
+            drawScene();
+        }
+
+        init();
+    </script>
+</body>
+</html>
